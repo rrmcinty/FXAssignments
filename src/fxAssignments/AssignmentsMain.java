@@ -1,11 +1,14 @@
 package fxAssignments;
 
+import java.util.Optional;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -47,11 +50,11 @@ public class AssignmentsMain extends Application{
 	    	ComboBox classBox = new ComboBox();
 	    	grid.add(classBox, 1, 1);
 	    	
-	    	Label pw = new Label("Password:");
+	    	Label pw = new Label("Assignment:");
 	    	grid.add(pw, 0, 2);
 	    	
-	    	PasswordField pwBox = new PasswordField();
-	    	grid.add(pwBox, 1, 2);
+	    	ComboBox<String> aBox = new ComboBox<String>();
+	    	grid.add(aBox, 1, 2);
 	    	
 	    	//CREATE BUTTONS
 	    	Button btnView = new Button("View All");
@@ -95,6 +98,18 @@ public class AssignmentsMain extends Application{
 	    	         * add assignment object from combobox info and assignment info
 	    	         * Then add to aList in handler
 	    	         */
+	    	        //dialog box once add is pressed
+	    	        TextInputDialog dialog = new TextInputDialog("Enter Class Name");
+	    	        dialog.setTitle("Class Chooser");
+	    	        dialog.setContentText("Enter a class id name");
+	    	        //response
+	    	        Optional<String> result = dialog.showAndWait();
+	    	        if (result.isPresent()) {
+	    	        	String entered = result.get();
+	    	        	System.out.println(entered);
+	    	        	classBox.getItems().add(entered);
+	    	        }
+	    	        
 	    	        actiontarget.setText("Add chosen");
 	    	    }
 	    	});
