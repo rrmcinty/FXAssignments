@@ -9,6 +9,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -53,19 +55,19 @@ public class AssignmentsMain extends Application{
 	    	hbClass.setAlignment(Pos.BASELINE_LEFT);
 
 	    	//add combobox and button
-	    	ComboBox classBox = new ComboBox();
+	    	ComboBox cmbClass = new ComboBox();
 	    	Button btnClassAdd = new Button("+");
 
 	    	//add hBox and class tools
 	    	grid.add(hbClass, 1, 1);
-	    	hbClass.getChildren().add(classBox);
+	    	hbClass.getChildren().add(cmbClass);
 	    	hbClass.getChildren().add(btnClassAdd);
 	    	
-	    	Label a = new Label("Assignment:");
-	    	grid.add(a, 0, 2);
+	    	Label lblAssignment = new Label("Assignment:");
+	    	grid.add(lblAssignment, 0, 2);
 	    	
-	    	TextField aBox = new TextField();
-	    	grid.add(aBox, 1, 2);
+	    	TextField txtAssignment = new TextField();
+	    	grid.add(txtAssignment, 1, 2);
 	    	
 	    	//CREATE BUTTONS
 	    	Button btnView = new Button("View All");
@@ -108,24 +110,35 @@ public class AssignmentsMain extends Application{
 	    	        if (result.isPresent()) {
 	    	        	String entered = result.get();
 	    	        	System.out.println(entered);
-	    	        	classBox.getItems().add(entered);
+	    	        	cmbClass.getItems().add(entered);
 	    	        }
 	    	        
 	    	        actiontarget.setText("Add chosen");
 	    	    }
 	    	});
-	    	
+	    	/*
+	    	 * added alert
+	    	 */
 	    	btnView.setOnAction(new EventHandler<ActionEvent>() {
-	    		 
 	    	    @Override
 	    	    public void handle(ActionEvent e) {
+	    	    	Handler handler = new Handler();
+	    	    	
 	    	        actiontarget.setFill(Color.BLACK);
 	    	        /**
 	    	         * print out assignment objects from alist in handler class
 	    	         */
+	    	        Alert alert = new Alert(AlertType.INFORMATION);
+	    	        alert.setTitle("All assignments");
+	    	        alert.setHeaderText("View of all current assignments");
+	    	        alert.setContentText(handler.printAll());
+	    	        alert.showAndWait();
 	    	        actiontarget.setText("View chosen");
 	    	    }
 	    	});
+	    	/*
+	    	 * now adds assignment to handler list = shows empty list when added
+	    	 */
 	    	btnAdd.setOnAction(new EventHandler<ActionEvent>() {
 	    		 
 	    	    @Override
@@ -136,16 +149,20 @@ public class AssignmentsMain extends Application{
 	    	         * Then add to aList in handler
 	    	         */
 	    	        //dialog box once add is pressed
-	    	        TextInputDialog dialog = new TextInputDialog("Enter Class Name");
-	    	        dialog.setTitle("Class Chooser");
-	    	        dialog.setContentText("Enter a class id name");
-	    	        //response
-	    	        Optional<String> result = dialog.showAndWait();
-	    	        if (result.isPresent()) {
-	    	        	String entered = result.get();
-	    	        	System.out.println(entered);
-	    	        	classBox.getItems().add(entered);
-	    	        }
+	    	        Handler handler = new Handler();
+	    	        String classVal = (String) cmbClass.getValue();
+	    	        String assignVal = txtAssignment.getText();
+	    	        //LOOK INTO THIS TRY AND CATCH
+	    	        try {
+						Assignments added = new Assignments(classVal,assignVal);
+						handler.addAssignment(added);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+//	    	        System.out.println(txtAssignment.getText());
+
+	    	        
 	    	        
 	    	        actiontarget.setText("Add chosen");
 	    	    }
