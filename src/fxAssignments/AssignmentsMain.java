@@ -12,7 +12,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -35,7 +35,7 @@ public class AssignmentsMain extends Application{
 	    	grid.setVgap(10); // and columns
 	    	grid.setPadding(new Insets(25, 25, 25, 25)); //space around edge of gridpane
 	    	
-	    	//TEXT AND COMBOBOXES
+	    	//TEXTFIELDS AND COMBOBOXES
 	    	Text scenetitle = new Text("Scheduler");
 	    	scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 	    	grid.add(scenetitle, 0, 0,2,1);
@@ -47,13 +47,24 @@ public class AssignmentsMain extends Application{
 	    	Label userName = new Label("Class Name:");
 	    	grid.add(userName, 0, 1);
 	    	
+	    	//CLASS SECTION
+	    	//add horizontal box
+	    	HBox hbClass = new HBox(10);
+	    	hbClass.setAlignment(Pos.BASELINE_LEFT);
+
+	    	//add combobox and button
 	    	ComboBox classBox = new ComboBox();
-	    	grid.add(classBox, 1, 1);
+	    	Button btnClassAdd = new Button("+");
+
+	    	//add hBox and class tools
+	    	grid.add(hbClass, 1, 1);
+	    	hbClass.getChildren().add(classBox);
+	    	hbClass.getChildren().add(btnClassAdd);
 	    	
-	    	Label pw = new Label("Assignment:");
-	    	grid.add(pw, 0, 2);
+	    	Label a = new Label("Assignment:");
+	    	grid.add(a, 0, 2);
 	    	
-	    	ComboBox<String> aBox = new ComboBox<String>();
+	    	TextField aBox = new TextField();
 	    	grid.add(aBox, 1, 2);
 	    	
 	    	//CREATE BUTTONS
@@ -63,7 +74,7 @@ public class AssignmentsMain extends Application{
 	    	HBox hbBtn = new HBox(10); //horizontal layout for buttons
 	    	
 	    	
-	    	//ADD BUTTONS
+	    	//ADD BOTTOM BUTTONS
 	    	hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
 	    	hbBtn.getChildren().add(btnView);
 	    	hbBtn.getChildren().add(btnAdd);
@@ -78,6 +89,32 @@ public class AssignmentsMain extends Application{
 	    	/**
 	    	 * EVENT COMMANDS
 	    	 */
+	    
+	    	btnClassAdd.setOnAction(new EventHandler<ActionEvent>() {
+	    		
+	    	    @Override
+	    	    public void handle(ActionEvent e) {
+	    	        actiontarget.setFill(Color.FIREBRICK);
+	    	        /**
+	    	         * add assignment object from combobox info and assignment info
+	    	         * Then add to aList in handler
+	    	         */
+	    	        //dialog box once add is pressed
+	    	        TextInputDialog dialog = new TextInputDialog("Enter Class Name");
+	    	        dialog.setTitle("Class Chooser");
+	    	        dialog.setContentText("Enter a class id name");
+	    	        //response
+	    	        Optional<String> result = dialog.showAndWait();
+	    	        if (result.isPresent()) {
+	    	        	String entered = result.get();
+	    	        	System.out.println(entered);
+	    	        	classBox.getItems().add(entered);
+	    	        }
+	    	        
+	    	        actiontarget.setText("Add chosen");
+	    	    }
+	    	});
+	    	
 	    	btnView.setOnAction(new EventHandler<ActionEvent>() {
 	    		 
 	    	    @Override
