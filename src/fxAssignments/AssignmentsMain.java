@@ -28,6 +28,9 @@ public class AssignmentsMain extends Application{
 	        launch(args);
 	    }
 	    
+	 
+	 	Handler handler = new Handler();
+	 	
 	    public void start(Stage primaryStage) {
 	    	//creates window with grid layout
 	    	primaryStage.setTitle("JavaFX Scheduler");
@@ -122,7 +125,7 @@ public class AssignmentsMain extends Application{
 	    	btnView.setOnAction(new EventHandler<ActionEvent>() {
 	    	    @Override
 	    	    public void handle(ActionEvent e) {
-	    	    	Handler handler = new Handler();
+//	    	    	Hhandler = new Handler();
 	    	    	
 	    	        actiontarget.setFill(Color.BLACK);
 	    	        /**
@@ -149,7 +152,7 @@ public class AssignmentsMain extends Application{
 	    	         * Then add to aList in handler
 	    	         */
 	    	        //dialog box once add is pressed
-	    	        Handler handler = new Handler();
+//	    	        Handler handler = new Handler();
 	    	        String classVal = (String) cmbClass.getValue();
 	    	        String assignVal = txtAssignment.getText();
 	    	        //LOOK INTO THIS TRY AND CATCH

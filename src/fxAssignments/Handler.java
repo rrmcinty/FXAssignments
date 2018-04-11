@@ -24,9 +24,14 @@ public class Handler {
 			allAssignments = ("There are no current assignments");
 		}
 		for (Assignments a : aList) {
-			allAssignments = allAssignments + a.toString() + "%n";
+			//just prints %n instead of new line
+			allAssignments = allAssignments + a.toString() + System.lineSeparator();
 		}
 		
 		return allAssignments;
+	}
+	
+	public String remove(String s) {
+		return null;
 	}
 }
