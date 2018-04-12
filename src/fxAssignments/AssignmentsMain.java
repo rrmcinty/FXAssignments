@@ -1,5 +1,7 @@
 package fxAssignments;
 
+import javafx.scene.control.DatePicker;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import javafx.application.Application;
@@ -17,18 +19,24 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/*
+ * REORGANIZE
+ */
+
+
+
 public class AssignmentsMain extends Application{
 	 public static void main(String[] args) {
 	        launch(args);
 	    }
 	    
-	 
 	 	Handler handler = new Handler();
 	 	
 	    public void start(Stage primaryStage) {
@@ -39,6 +47,7 @@ public class AssignmentsMain extends Application{
 	    	grid.setHgap(10); //spacingi between rows 
 	    	grid.setVgap(10); // and columns
 	    	grid.setPadding(new Insets(25, 25, 25, 25)); //space around edge of gridpane
+	    		    	
 	    	
 	    	//TEXTFIELDS AND COMBOBOXES
 	    	Text scenetitle = new Text("Scheduler");
@@ -66,6 +75,30 @@ public class AssignmentsMain extends Application{
 	    	hbClass.getChildren().add(cmbClass);
 	    	hbClass.getChildren().add(btnClassAdd);
 	    	
+	    	
+	    	HBox hbDate = new HBox(10);
+	    	
+	    	Label due = new Label("Due date:");
+	        //create the datepicker
+	        DatePicker datePicker = new DatePicker();
+	        
+	        //add action
+	        datePicker.setOnAction(event-> {
+	        	LocalDate date = datePicker.getValue();
+	        	System.out.println("Date selected is " + date);
+	        });
+	        
+	        //add the datepicker to stage
+	        
+	        //add to hbdate
+	        
+	        hbDate.getChildren().add(due);
+	        hbDate.getChildren().add(datePicker);
+	        hbDate.setAlignment(Pos.BOTTOM_LEFT);
+	    	
+	    	grid.add(hbDate, 1, 4);
+	    	
+	    	
 	    	Label lblAssignment = new Label("Assignment:");
 	    	grid.add(lblAssignment, 0, 2);
 	    	
@@ -79,13 +112,14 @@ public class AssignmentsMain extends Application{
 	    	HBox hbBtn = new HBox(10); //horizontal layout for buttons
 	    	
 	    	
+	    	
 	    	//ADD BOTTOM BUTTONS
 	    	hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
 	    	hbBtn.getChildren().add(btnView);
 	    	hbBtn.getChildren().add(btnAdd);
 	    	hbBtn.getChildren().add(btnRemove);
 	    	
-	    	grid.add(hbBtn, 1, 4);
+	    	grid.add(hbBtn, 1, 5);
 	    	
 	    	final Text actiontarget = new Text();
 	    	grid.add(actiontarget, 1, 6);
@@ -115,6 +149,10 @@ public class AssignmentsMain extends Application{
 	    	        	System.out.println(entered);
 	    	        	cmbClass.getItems().add(entered);
 	    	        }
+	    	        
+	    	      //  ======================================NOT WORKING==========================================================================
+	    	        		
+
 	    	        
 	    	        actiontarget.setText("Add chosen");
 	    	    }
@@ -165,7 +203,16 @@ public class AssignmentsMain extends Application{
 					}
 //	    	        System.out.println(txtAssignment.getText());
 
+
 	    	        
+//	    	        DatePicker datePicker = new DatePicker();
+//	    	        datePicker.setOnAction(new EventHandler<ActionEvent>() {
+//	    			public void handle(ActionEvent arg0) {
+//						// TODO Auto-generated method stub
+//    	                LocalDate date = datePicker.getValue();
+//    	                System.err.println("Selected date: " + date);
+//						}
+//			    	});
 	    	        
 	    	        actiontarget.setText("Add chosen");
 	    	    }
@@ -180,7 +227,7 @@ public class AssignmentsMain extends Application{
 	    	});
 	    	
 	    	
-	    	Scene scene = new Scene(grid, 315, 275); //width and height of window
+	    	Scene scene = new Scene(grid, 600, 275); //width and height of window
 	    	primaryStage.setScene(scene);
 	    	
 	    	
