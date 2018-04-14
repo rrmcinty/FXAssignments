@@ -25,6 +25,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.control.MenuBar;
 
 /*
  * REORGANIZE
@@ -58,8 +59,8 @@ public class AssignmentsMain extends Application{
 	    	sceneInstruction.setFont(Font.font("Arial", FontWeight.NORMAL, 10));
 	    	grid.add(sceneInstruction, 0, 0, 2,2);
 	    	
-	    	Label userName = new Label("Class Name:");
-	    	grid.add(userName, 0, 1);
+	    	Label className = new Label("Class Name:");
+	    	grid.add(className, 0, 1);
 	    	
 	    	//CLASS SECTION
 	    	//add horizontal box
@@ -75,44 +76,39 @@ public class AssignmentsMain extends Application{
 	    	hbClass.getChildren().add(cmbClass);
 	    	hbClass.getChildren().add(btnClassAdd);
 	    	
-	    	
-	    	HBox hbDate = new HBox(10);
-	    	
-	    	Label due = new Label("Due date:");
-	        //create the datepicker
-	        DatePicker datePicker = new DatePicker();
-	        
-	        //add action
-	        datePicker.setOnAction(event-> {
-	        	LocalDate date = datePicker.getValue();
-	        	System.out.println("Date selected is " + date);
-	        });
-	        
-	        //add the datepicker to stage
-	        
-	        //add to hbdate
-	        
-	        hbDate.getChildren().add(due);
-	        hbDate.getChildren().add(datePicker);
-	        hbDate.setAlignment(Pos.BOTTOM_LEFT);
-	    	
-	    	grid.add(hbDate, 1, 4);
-	    	
-	    	
+	    	//ASSIGNMENT SECTION
 	    	Label lblAssignment = new Label("Assignment:");
 	    	grid.add(lblAssignment, 0, 2);
 	    	
 	    	TextField txtAssignment = new TextField();
 	    	grid.add(txtAssignment, 1, 2);
 	    	
+	    	//DATE SECTION
+	    	HBox hbDate = new HBox(10);
+	    	
+	    	Label due = new Label("Due date:");
+	    	grid.add(due, 0, 3);
+	        //create the datepicker
+	        DatePicker datePicker = new DatePicker();
+	        //DATEPICKER CLOSES WINDOW AFTER CHOSEN
+	        //add action
+	        datePicker.setOnAction(event-> {
+	        	LocalDate date = datePicker.getValue();
+	        	System.out.println("Date selected is " + date);
+	        });
+	        
+	        hbDate.getChildren().add(datePicker);
+	        hbDate.setAlignment(Pos.BOTTOM_LEFT);
+	    	
+	    	grid.add(hbDate, 1, 3);
+	    	
+	    	
 	    	//CREATE BUTTONS
 	    	Button btnView = new Button("View All");
 	    	Button btnAdd = new Button("Add");
 	    	Button btnRemove = new Button("Remove");
 	    	HBox hbBtn = new HBox(10); //horizontal layout for buttons
-	    	
-	    	
-	    	
+	 
 	    	//ADD BOTTOM BUTTONS
 	    	hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
 	    	hbBtn.getChildren().add(btnView);
@@ -128,19 +124,16 @@ public class AssignmentsMain extends Application{
 	    	/**
 	    	 * EVENT COMMANDS
 	    	 */
-	    
+//CLASS ADD	    
 	    	btnClassAdd.setOnAction(new EventHandler<ActionEvent>() {
 	    		
 	    	    @Override
 	    	    public void handle(ActionEvent e) {
 	    	        actiontarget.setFill(Color.FIREBRICK);
-	    	        /**
-	    	         * add assignment object from combobox info and assignment info
-	    	         * Then add to aList in handler
-	    	         */
-	    	        //dialog box once add is pressed
+
 	    	        TextInputDialog dialog = new TextInputDialog("Enter Class Name");
 	    	        dialog.setTitle("Class Chooser");
+	    	        dialog.setHeaderText("Add Class Name");
 	    	        dialog.setContentText("Enter a class id name");
 	    	        //response
 	    	        Optional<String> result = dialog.showAndWait();
@@ -149,17 +142,11 @@ public class AssignmentsMain extends Application{
 	    	        	System.out.println(entered);
 	    	        	cmbClass.getItems().add(entered);
 	    	        }
-	    	        
-	    	      //  ======================================NOT WORKING==========================================================================
-	    	        		
-
-	    	        
+	    	        	    	        
 	    	        actiontarget.setText("Add chosen");
 	    	    }
 	    	});
-	    	/*
-	    	 * added alert
-	    	 */
+//VIEW
 	    	btnView.setOnAction(new EventHandler<ActionEvent>() {
 	    	    @Override
 	    	    public void handle(ActionEvent e) {
@@ -177,9 +164,7 @@ public class AssignmentsMain extends Application{
 	    	        actiontarget.setText("View chosen");
 	    	    }
 	    	});
-	    	/*
-	    	 * now adds assignment to handler list = shows empty list when added
-	    	 */
+//ADD
 	    	btnAdd.setOnAction(new EventHandler<ActionEvent>() {
 	    		 
 	    	    @Override
@@ -201,36 +186,34 @@ public class AssignmentsMain extends Application{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-//	    	        System.out.println(txtAssignment.getText());
 
-
-	    	        
-//	    	        DatePicker datePicker = new DatePicker();
-//	    	        datePicker.setOnAction(new EventHandler<ActionEvent>() {
-//	    			public void handle(ActionEvent arg0) {
-//						// TODO Auto-generated method stub
-//    	                LocalDate date = datePicker.getValue();
-//    	                System.err.println("Selected date: " + date);
-//						}
-//			    	});
-	    	        
 	    	        actiontarget.setText("Add chosen");
 	    	    }
 	    	});
+//REMOVE
 	    	btnRemove.setOnAction(new EventHandler<ActionEvent>() {
 	    		 
 	    	    @Override
 	    	    public void handle(ActionEvent e) {
+	    	    	TextInputDialog dialog = new TextInputDialog("Type assignment here");
+	    	    	dialog.setHeaderText("Remove Assignment");
+	    	    	dialog.setContentText("Choose assignment to remove.");
+	    	    	Optional<String> result = dialog.showAndWait();
+	    	    	if (result.isPresent()) {
+	    	    		String s = result.get();
+	    	    		handler.remove(s);
+	    	    	}
+	    	    	
 	    	        actiontarget.setFill(Color.DARKCYAN);
 	    	        actiontarget.setText("Remove chosen");
 	    	    }
 	    	});
 	    	
 	    	
-	    	Scene scene = new Scene(grid, 600, 275); //width and height of window
+	    	Scene scene = new Scene(grid, 400, 275); //width and height of window
 	    	primaryStage.setScene(scene);
 	    	
-	    	
+
 	    	//shows stage
 	    	primaryStage.show();
 	    }

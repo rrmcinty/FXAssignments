@@ -1,7 +1,9 @@
 package fxAssignments;
 
+import javafx.scene.control.Menu;
 import java.util.ArrayList;
 
+import javafx.scene.control.MenuBar;
 
 
 public class Handler {
@@ -31,7 +33,23 @@ public class Handler {
 		return allAssignments;
 	}
 	
-	public String remove(String s) {
-		return null;
+	public void remove(String s) {
+		for(Assignments a : aList) {
+			if (a.getAssignment().equals(s)) {
+				aList.remove(a);
+			}
+		}
 	}
+
+	//READ AND WRITE METHODS
+	//MAKE SURE REWRITES INSTEAD OF ADD
+	
+	public void saveFile() {
+		//saves class names
+		//saves after assignments added or removed
+	}
+	public void openFile() {
+		//opens txt file at beginning of program and populates list
+	}
+	
 }

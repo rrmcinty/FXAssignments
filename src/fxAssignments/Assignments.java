@@ -9,18 +9,9 @@ public class Assignments {
 	public Assignments(String c, String a) throws Exception {
 		className = c;
 		assignment = a;
-//		handler.add(this);
 	}
 
-//	public String getDue() {
-//		return due.toString();
-//	}
-	
-//	public void setDue(String d) throws Exception{
-//		//string "dd/MM/yyyy
-//		Date date1= new SimpleDateFormat("dd/MM/yyyy").parse(d);
-//		due = date1;
-//	}
+
 	public String toString() {
 		return className + " - " + assignment;
 	}
