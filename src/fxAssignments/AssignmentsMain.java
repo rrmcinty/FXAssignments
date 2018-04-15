@@ -212,9 +212,13 @@ public class AssignmentsMain extends Application{
 	    	
 	    	Scene scene = new Scene(grid, 400, 275); //width and height of window
 	    	primaryStage.setScene(scene);
-	    	
+
 
 	    	//shows stage
 	    	primaryStage.show();
+	    	//not saving after closing
+	    	primaryStage.setOnCloseRequest(event ->{
+	    		handler.saveFile();
+	    	});
 	    }
 }

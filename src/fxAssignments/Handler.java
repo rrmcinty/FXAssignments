@@ -1,9 +1,10 @@
 package fxAssignments;
 
-import javafx.scene.control.Menu;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-
-import javafx.scene.control.MenuBar;
 
 
 public class Handler {
@@ -45,8 +46,22 @@ public class Handler {
 	//MAKE SURE REWRITES INSTEAD OF ADD
 	
 	public void saveFile() {
-		//saves class names
+		//NOT SAVING AFTER CLOSING
 		//saves after assignments added or removed
+		//crate new file with an oos
+		try {
+		FileOutputStream fos = new FileOutputStream("/FXAssignments/Resources/assignments.ob");
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		
+		for(Assignments a : aList) {
+			oos.writeObject(a);
+		}
+		
+		oos.close();
+		
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	public void openFile() {
 		//opens txt file at beginning of program and populates list
