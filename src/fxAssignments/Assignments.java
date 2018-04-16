@@ -1,6 +1,8 @@
 package fxAssignments;
 
-public class Assignments {
+import java.io.Serializable;
+
+public class Assignments implements Serializable{
 //	Date due, date1;
 	
 	String assignment, className;

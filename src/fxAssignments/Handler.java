@@ -1,8 +1,7 @@
 package fxAssignments;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
@@ -46,11 +45,9 @@ public class Handler {
 	//MAKE SURE REWRITES INSTEAD OF ADD
 	
 	public void saveFile() {
-		//NOT SAVING AFTER CLOSING
-		//saves after assignments added or removed
-		//crate new file with an oos
+		//NO MORE ERROR IS IT WORKING?
 		try {
-		FileOutputStream fos = new FileOutputStream("/FXAssignments/Resources/assignments.ob");
+		FileOutputStream fos = new FileOutputStream("object.data");
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		
 		for(Assignments a : aList) {
@@ -64,7 +61,8 @@ public class Handler {
 		}
 	}
 	public void openFile() {
-		//opens txt file at beginning of program and populates list
+		//opens object.data file at beginning of program and populates list
+
 	}
 	
 }

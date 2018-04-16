@@ -36,9 +36,12 @@ import javafx.scene.control.MenuBar;
 public class AssignmentsMain extends Application{
 	 public static void main(String[] args) {
 	        launch(args);
+	        
 	    }
 	    
 	 	Handler handler = new Handler();
+	 	
+	 		
 	 	
 	    public void start(Stage primaryStage) {
 	    	//creates window with grid layout
@@ -164,6 +167,7 @@ public class AssignmentsMain extends Application{
 	    	        actiontarget.setText("View chosen");
 	    	    }
 	    	});
+	    	
 //ADD
 	    	btnAdd.setOnAction(new EventHandler<ActionEvent>() {
 	    		 
@@ -182,6 +186,9 @@ public class AssignmentsMain extends Application{
 	    	        try {
 						Assignments added = new Assignments(classVal,assignVal);
 						handler.addAssignment(added);
+						handler.saveFile();
+						System.out.println("can I save here?");
+						
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -189,6 +196,7 @@ public class AssignmentsMain extends Application{
 
 	    	        actiontarget.setText("Add chosen");
 	    	    }
+	    	    
 	    	});
 //REMOVE
 	    	btnRemove.setOnAction(new EventHandler<ActionEvent>() {
@@ -202,6 +210,7 @@ public class AssignmentsMain extends Application{
 	    	    	if (result.isPresent()) {
 	    	    		String s = result.get();
 	    	    		handler.remove(s);
+	    	    		
 	    	    	}
 	    	    	
 	    	        actiontarget.setFill(Color.DARKCYAN);
@@ -216,9 +225,7 @@ public class AssignmentsMain extends Application{
 
 	    	//shows stage
 	    	primaryStage.show();
+	    	
 	    	//not saving after closing
-	    	primaryStage.setOnCloseRequest(event ->{
-	    		handler.saveFile();
-	    	});
 	    }
 }
