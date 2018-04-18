@@ -43,15 +43,16 @@ public class Handler {
 
 	//READ AND WRITE METHODS
 	//MAKE SURE REWRITES INSTEAD OF ADD
-	
+	//if this works, somehow make it to where it will save only at end of program execution?
 	public void saveFile() {
 		//NO MORE ERROR IS IT WORKING?
 		try {
-		FileOutputStream fos = new FileOutputStream("object.data");
+		FileOutputStream fos = new FileOutputStream("Resources/assignments.ob", false);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		
-		for(Assignments a : aList) {
+		for(Assignments a : aList) { 
 			oos.writeObject(a);
+			System.out.println(a.toString() + " added to save file");
 		}
 		
 		oos.close();
@@ -60,9 +61,15 @@ public class Handler {
 			ex.printStackTrace();
 		}
 	}
+		
 	public void openFile() {
 		//opens object.data file at beginning of program and populates list
 
 	}
-	
+	/**
+	 * used to clear list so we can test the openfile method
+	 */
+	public void clearList() {
+		aList.clear();
+	}
 }

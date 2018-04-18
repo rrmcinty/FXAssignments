@@ -110,6 +110,7 @@ public class AssignmentsMain extends Application{
 	    	Button btnView = new Button("View All");
 	    	Button btnAdd = new Button("Add");
 	    	Button btnRemove = new Button("Remove");
+	    	
 	    	HBox hbBtn = new HBox(10); //horizontal layout for buttons
 	 
 	    	//ADD BOTTOM BUTTONS
@@ -118,12 +119,19 @@ public class AssignmentsMain extends Application{
 	    	hbBtn.getChildren().add(btnAdd);
 	    	hbBtn.getChildren().add(btnRemove);
 	    	
+	    	
 	    	grid.add(hbBtn, 1, 5);
 	    	
 	    	final Text actiontarget = new Text();
 	    	grid.add(actiontarget, 1, 6);
 	    	
-
+	    	//TEST BUTTONS
+	    	
+	    	Button btnClear = new Button("Clear");
+	    	HBox hbBtnTest = new HBox(10);
+	    	
+	    	hbBtnTest.getChildren().add(btnClear);
+	    	grid.add(hbBtnTest, 1, 8);
 	    	/**
 	    	 * EVENT COMMANDS
 	    	 */
@@ -227,5 +235,16 @@ public class AssignmentsMain extends Application{
 	    	primaryStage.show();
 	    	
 	    	//not saving after closing
+	    	
+	    	btnClear.setOnAction(new EventHandler<ActionEvent>() {
+	    		 
+	    	    @Override
+	    	    public void handle(ActionEvent e) {
+	    	    	handler.clearList();
+	    	    	
+	    	        actiontarget.setFill(Color.BLUEVIOLET);
+	    	        actiontarget.setText("Clear chosen");
+	    	    }
+	    	});
 	    }
 }
