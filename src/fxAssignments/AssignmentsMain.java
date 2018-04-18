@@ -1,6 +1,8 @@
 package fxAssignments;
 
 import javafx.scene.control.DatePicker;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -40,8 +42,6 @@ public class AssignmentsMain extends Application{
 	    }
 	    
 	 	Handler handler = new Handler();
-	 	
-	 		
 	 	
 	    public void start(Stage primaryStage) {
 	    	//creates window with grid layout
@@ -128,9 +128,12 @@ public class AssignmentsMain extends Application{
 	    	//TEST BUTTONS
 	    	
 	    	Button btnClear = new Button("Clear");
+	    	Button btnOpen = new Button("Open");
 	    	HBox hbBtnTest = new HBox(10);
 	    	
+	    	
 	    	hbBtnTest.getChildren().add(btnClear);
+	    	hbBtnTest.getChildren().add(btnOpen);
 	    	grid.add(hbBtnTest, 1, 8);
 	    	/**
 	    	 * EVENT COMMANDS
@@ -225,16 +228,27 @@ public class AssignmentsMain extends Application{
 	    	        actiontarget.setText("Remove chosen");
 	    	    }
 	    	});
-	    	
-	    	
-	    	Scene scene = new Scene(grid, 400, 275); //width and height of window
-	    	primaryStage.setScene(scene);
-
-
-	    	//shows stage
-	    	primaryStage.show();
-	    	
-	    	//not saving after closing
+	    	/**
+	    	 * reads in files and adds them to list but has io exception
+	    	 */
+	    	btnOpen.setOnAction(new EventHandler<ActionEvent>() {
+	    		 
+	    	    @Override
+	    	    public void handle(ActionEvent e) {
+	    	    	try {
+						handler.openFile();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+	    	    	
+	    	        actiontarget.setFill(Color.TOMATO);
+	    	        actiontarget.setText("Open chosen");
+	    	    }
+	    	});
 	    	
 	    	btnClear.setOnAction(new EventHandler<ActionEvent>() {
 	    		 
@@ -246,5 +260,15 @@ public class AssignmentsMain extends Application{
 	    	        actiontarget.setText("Clear chosen");
 	    	    }
 	    	});
+	    	Scene scene = new Scene(grid, 400, 275); //width and height of window
+	    	primaryStage.setScene(scene);
+
+
+	    	//shows stage
+	    	primaryStage.show();
+	    	
+	
+	    	
+
 	    }
 }
