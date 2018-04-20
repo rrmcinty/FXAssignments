@@ -1,9 +1,11 @@
 package fxAssignments;
 
+import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
@@ -73,16 +75,18 @@ public class Handler {
 //		try {
 		FileInputStream fis = new FileInputStream("Resources/assignments.ob");
 		ObjectInputStream ois = new ObjectInputStream(fis);
-		aList.clear();
-		while(true) {
-			Object obj = ois.readObject(); //CAST TO ASSIGNMENTS
-			Assignments a = (Assignments) obj;
-			aList.add(a);
-		}
 
-//		}catch (Exception ex) {
-//			ex.printStackTrace();
-//		}
+		aList.clear();
+		//maybe change the while loop?
+		try {
+			while(true) {
+					Object obj = ois.readObject(); //CAST TO ASSIGNMENTS
+					Assignments a = (Assignments) obj;
+					aList.add(a);
+			}
+			}catch (EOFException ex) {
+			System.out.println("All objects read");
+			}
 	}
 	/**
 	 * used to clear list so we can test the openfile method
