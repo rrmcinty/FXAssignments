@@ -1,6 +1,7 @@
 package fxAssignments;
 
 import java.io.EOFException;
+import javafx.scene.control.ChoiceDialog;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Handler {
@@ -35,14 +37,6 @@ public class Handler {
 		}
 		
 		return allAssignments;
-	}
-	
-	public void remove(String s) {
-		for(Assignments a : aList) {
-			if (a.getAssignment().equals(s)) {
-				aList.remove(a);
-			}
-		}
 	}
 
 	//READ AND WRITE METHODS
@@ -94,4 +88,52 @@ public class Handler {
 	public void clearList() {
 		aList.clear();
 	}
+	
+	/**
+	 * creates choice dialog box
+	 * @return
+	 */
+	public ChoiceDialog createChoice() {
+		List<String> aChoice = new ArrayList<>();
+		for (Assignments a : aList) {
+			aChoice.add(a.toString());
+		}
+		ChoiceDialog<String> choices = new ChoiceDialog<>("Choose assignment", aChoice);
+		choices.setTitle("Assignment removal");
+		choices.setHeaderText("Choose assignment to remove from list");
+		
+		return choices;
+	}
+	/**
+	 * removes assignment found from isInList method
+	 * @param assignment
+	 */
+	public void remove(Assignments assignment) {
+		for(Assignments a : aList) {
+			if (a.equals(assignment)) {
+				System.out.println(assignment.toString() + " vs " + a.toString());
+				System.out.println(a.toString() + " should be removed.");
+				aList.remove(a);
+			}
+		}
+	}
+	/**
+	 * returns assignment found in list
+	 * may have to fix the null part if not found
+	 * @param c
+	 * @param a
+	 * @return
+	 */
+	
+	public Assignments isInList(String c, String a) {
+		Assignments found = null;
+
+		for (Assignments assignment : aList) {
+			if (assignment.getName().equals(c) && assignment.getAssignment().equals(a)) {
+				found = assignment;
+			}
+		}
+		return found;
+	}
+	
 }

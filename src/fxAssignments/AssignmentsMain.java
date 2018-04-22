@@ -1,10 +1,9 @@
 package fxAssignments;
 
-import javafx.scene.control.DatePicker;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.Scanner;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -12,15 +11,19 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 //import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-//import javafx.scene.control.Button;
-//import javafx.scene.control.ComboBox;
-//import javafx.scene.control.Label;
-//import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -29,13 +32,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.control.MenuBar;
 
 /*
  * REORGANIZE
  */
-
-
 
 public class AssignmentsMain extends Application{
 	 public static void main(String[] args) {
@@ -239,47 +239,35 @@ public class AssignmentsMain extends Application{
 	    	    
 	    	});
 /**
+ * removes from list but adds them back once program started. also errors found, something to do with reading/writing?
  * change to a list of selectable assignment objects to remove
  */
 	    	btnRemove.setOnAction(new EventHandler<ActionEvent>() {
 	    		 
 	    	    @Override
 	    	    public void handle(ActionEvent e) {
-	    	    	TextInputDialog dialog = new TextInputDialog("Type assignment here");
-	    	    	dialog.setHeaderText("Remove Assignment");
-	    	    	dialog.setContentText("Choose assignment to remove.");
-	    	    	Optional<String> result = dialog.showAndWait();
-	    	    	if (result.isPresent()) {
-	    	    		String s = result.get();
-	    	    		handler.remove(s);
-	    	    		
-	    	    	}
-	    	    	
-	    	        actiontarget.setFill(Color.DARKCYAN);
-	    	        actiontarget.setText("Remove chosen");
+
+	    	    ChoiceDialog choices = handler.createChoice();	
+    	    	Optional<String> result = choices.showAndWait();
+    	    	if (result.isPresent()) {
+    	    		/**
+    	    		 * lead this back to assignment to be removed
+    	    		 */
+    	    		String s = result.get();
+    	    		System.out.println(s + " is the result");
+    	    		Scanner scanner = new Scanner(s).useDelimiter("\\s*-\\s*");
+    	    		String c = scanner.next();
+    	    		System.out.println(c + " is the class found");
+    	    		String a = scanner.next();
+    	    		System.out.println(a + " is the assignment found");
+    	    		Assignments removed = handler.isInList(c, a);
+//    	    		System.out.println(removed.toString() + " assignment to be removed.");
+    	    		handler.remove(removed);
+    	    		//add confirmation dialog
+    	    	}
 	    	    }
 	    	});
-	    	/**
-	    	 * reads in files and adds them to list but has io exception
-	    	 */
-//	    	btnOpen.setOnAction(new EventHandler<ActionEvent>() {
-//	    		 
-//	    	    @Override
-//	    	    public void handle(ActionEvent e) {
-//	    	    	try {
-//						handler.openFile();
-//					} catch (IOException e1) {
-//						// TODO Auto-generated catch block
-//						e1.printStackTrace();
-//					} catch (ClassNotFoundException e1) {
-//						// TODO Auto-generated catch block
-//						e1.printStackTrace();
-//					}
-//	    	    	
-//	    	        actiontarget.setFill(Color.TOMATO);
-//	    	        actiontarget.setText("Open chosen");
-//	    	    }
-//	    	});
+
 	    	
 	    	btnClear.setOnAction(new EventHandler<ActionEvent>() {
 	    		 
