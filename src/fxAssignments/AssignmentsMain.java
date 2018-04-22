@@ -64,7 +64,7 @@ public class AssignmentsMain extends Application{
 	    	GridPane grid = new GridPane();
 	    	borderPane.setCenter(grid);
 	    	grid.setAlignment(Pos.CENTER); //instead of top left of scene the center
-	    	grid.setHgap(10); //spacingi between rows 
+	    	grid.setHgap(10); //spacing between rows 
 	    	grid.setVgap(10); // and columns
 	    	grid.setPadding(new Insets(25, 25, 25, 25)); //space around edge of gridpane
 	    		    	
@@ -263,6 +263,7 @@ public class AssignmentsMain extends Application{
     	    		Assignments removed = handler.isInList(c, a);
 //    	    		System.out.println(removed.toString() + " assignment to be removed.");
     	    		handler.remove(removed);
+    	    		handler.saveFile();
     	    		//add confirmation dialog
     	    	}
 	    	    }

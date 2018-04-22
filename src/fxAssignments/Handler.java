@@ -1,15 +1,16 @@
 package fxAssignments;
 
 import java.io.EOFException;
-import javafx.scene.control.ChoiceDialog;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import javafx.scene.control.ChoiceDialog;
 
 
 public class Handler {
@@ -105,15 +106,17 @@ public class Handler {
 		return choices;
 	}
 	/**
-	 * removes assignment found from isInList method
+	 * removes assignment found from isInList method. used iterator to avoid concurrentModificationException.
 	 * @param assignment
 	 */
 	public void remove(Assignments assignment) {
-		for(Assignments a : aList) {
+		Iterator<Assignments> iter = aList.iterator();
+		
+		while (iter.hasNext()) {
+			Assignments a = iter.next();
+			
 			if (a.equals(assignment)) {
-				System.out.println(assignment.toString() + " vs " + a.toString());
-				System.out.println(a.toString() + " should be removed.");
-				aList.remove(a);
+				iter.remove();
 			}
 		}
 	}
