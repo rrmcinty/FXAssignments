@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -208,7 +209,9 @@ public class AssignmentsMain extends Application{
 	    	    }
 	    	});
 	    	
-//ADD
+	    	/**
+	    	 * need a constraint for null. if either combobox or gettext is empty.
+	    	 */
 	    	btnAdd.setOnAction(new EventHandler<ActionEvent>() {
 	    		 
 	    	    @Override
@@ -223,16 +226,24 @@ public class AssignmentsMain extends Application{
 	    	        String classVal = (String) cmbClass.getValue();
 	    	        String assignVal = txtAssignment.getText();
 	    	        //LOOK INTO THIS TRY AND CATCH
-	    	        try {
-						Assignments added = new Assignments(classVal,assignVal);
-						handler.addAssignment(added);
-						handler.saveFile();
-						System.out.println("can I save here?");
-						
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+	    	        if (cmbClass.getValue() == null || txtAssignment.getText().trim().isEmpty()) {
+	    	        	System.out.println("Fields are empty");
+	    	        	System.out.println(assignVal);
+	    	        	System.out.println(txtAssignment.getText());
+	    	        }
+	    	        else {
+	    	        	try {
+							Assignments added = new Assignments(classVal,assignVal);
+							handler.addAssignment(added);
+							handler.saveFile();
+							System.out.println("can I save here?");
+							
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+	    	        }
+
 
 	    	        actiontarget.setText("Add chosen");
 	    	    }
@@ -274,10 +285,21 @@ public class AssignmentsMain extends Application{
 	    		 
 	    	    @Override
 	    	    public void handle(ActionEvent e) {
-	    	    	handler.clearList();
-	    	    	
+
 	    	        actiontarget.setFill(Color.BLUEVIOLET);
 	    	        actiontarget.setText("Clear chosen");
+	    	        Alert alert = new Alert(AlertType.CONFIRMATION);
+	    	        alert.setTitle("Clear Confirmation");
+	    	        alert.setHeaderText("This will permanently clear all assignments.");
+	    	        alert.setContentText("Are you sure you want to continue?");
+	    	        Optional<ButtonType> result = alert.showAndWait();
+	    	        if (result.get() == ButtonType.OK) {
+		    	    	handler.clearList();
+		    	    	handler.saveFile();
+	    	        }
+	    	        else {
+	    	        	System.out.println("User cancelled");
+	    	        }
 	    	    }
 	    	});
 	    	
