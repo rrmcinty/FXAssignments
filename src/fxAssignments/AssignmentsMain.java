@@ -12,16 +12,18 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
+//import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+//import javafx.scene.control.Button;
+//import javafx.scene.control.ComboBox;
+//import javafx.scene.control.Label;
+//import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -45,8 +47,22 @@ public class AssignmentsMain extends Application{
 	 	
 	    public void start(Stage primaryStage) {
 	    	//creates window with grid layout
+	    	BorderPane borderPane = new BorderPane();
+	    	//possibly different class
+	    	MenuBar menuBar = new MenuBar();
+	    	menuBar.prefWidthProperty().bind(primaryStage.maxWidthProperty());
+	    	Menu menuFile = new Menu("File");
+	    	//use menu?
+	    	MenuItem openItem = new MenuItem("Open");
+	    	menuFile.getItems().add(openItem);
+	    	menuBar.getMenus().addAll(menuFile);
+	    	
+
+	    	borderPane.setTop(menuBar);
+	    	
 	    	primaryStage.setTitle("JavaFX Scheduler");
 	    	GridPane grid = new GridPane();
+	    	borderPane.setCenter(grid);
 	    	grid.setAlignment(Pos.CENTER); //instead of top left of scene the center
 	    	grid.setHgap(10); //spacingi between rows 
 	    	grid.setVgap(10); // and columns
@@ -128,13 +144,26 @@ public class AssignmentsMain extends Application{
 	    	//TEST BUTTONS
 	    	
 	    	Button btnClear = new Button("Clear");
-	    	Button btnOpen = new Button("Open");
+//	    	Button btnOpen = new Button("Open");
 	    	HBox hbBtnTest = new HBox(10);
 	    	
 	    	
 	    	hbBtnTest.getChildren().add(btnClear);
-	    	hbBtnTest.getChildren().add(btnOpen);
+//	    	hbBtnTest.getChildren().add(btnOpen);
 	    	grid.add(hbBtnTest, 1, 8);
+	    	
+	    	//opens previous schedule of assignments
+	    	try {
+				handler.openFile();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    	
+	    	
 	    	/**
 	    	 * EVENT COMMANDS
 	    	 */
@@ -209,7 +238,9 @@ public class AssignmentsMain extends Application{
 	    	    }
 	    	    
 	    	});
-//REMOVE
+/**
+ * change to a list of selectable assignment objects to remove
+ */
 	    	btnRemove.setOnAction(new EventHandler<ActionEvent>() {
 	    		 
 	    	    @Override
@@ -231,24 +262,24 @@ public class AssignmentsMain extends Application{
 	    	/**
 	    	 * reads in files and adds them to list but has io exception
 	    	 */
-	    	btnOpen.setOnAction(new EventHandler<ActionEvent>() {
-	    		 
-	    	    @Override
-	    	    public void handle(ActionEvent e) {
-	    	    	try {
-						handler.openFile();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (ClassNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-	    	    	
-	    	        actiontarget.setFill(Color.TOMATO);
-	    	        actiontarget.setText("Open chosen");
-	    	    }
-	    	});
+//	    	btnOpen.setOnAction(new EventHandler<ActionEvent>() {
+//	    		 
+//	    	    @Override
+//	    	    public void handle(ActionEvent e) {
+//	    	    	try {
+//						handler.openFile();
+//					} catch (IOException e1) {
+//						// TODO Auto-generated catch block
+//						e1.printStackTrace();
+//					} catch (ClassNotFoundException e1) {
+//						// TODO Auto-generated catch block
+//						e1.printStackTrace();
+//					}
+//	    	    	
+//	    	        actiontarget.setFill(Color.TOMATO);
+//	    	        actiontarget.setText("Open chosen");
+//	    	    }
+//	    	});
 	    	
 	    	btnClear.setOnAction(new EventHandler<ActionEvent>() {
 	    		 
@@ -260,7 +291,18 @@ public class AssignmentsMain extends Application{
 	    	        actiontarget.setText("Clear chosen");
 	    	    }
 	    	});
-	    	Scene scene = new Scene(grid, 400, 275); //width and height of window
+	    	
+
+	    	//menu file
+
+	    	
+	    	Scene scene = new Scene(borderPane, 400, 325); //width and height of window
+	    	
+
+	    	
+	    	
+//	    	((VBox) scene.getRoot()).getChildren().addAll(menuBar);
+	    	
 	    	primaryStage.setScene(scene);
 
 
