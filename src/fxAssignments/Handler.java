@@ -15,6 +15,7 @@ import javafx.scene.control.ChoiceDialog;
 
 public class Handler {
 	ArrayList<Assignments> aList = new ArrayList<Assignments>();
+	List<String> classList = new ArrayList<String>();
 	/**
 	 * this wont add assignments object to aList
 	 * @param a
@@ -78,11 +79,18 @@ public class Handler {
 					Object obj = ois.readObject(); //CAST TO ASSIGNMENTS
 					Assignments a = (Assignments) obj;
 					aList.add(a);
+					//adds class to class list to read in for combo box
+					classList.add(a.getName());
 			}
 			}catch (EOFException ex) {
 			System.out.println("All objects read");
 			}
 	}
+	
+	public List getClassList() {
+		return classList;
+	}
+	
 	/**
 	 * used to clear list so we can test the openfile method
 	 */

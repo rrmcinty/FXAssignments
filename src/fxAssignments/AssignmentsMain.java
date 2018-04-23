@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Scanner;
-
+import javafx.collections.FXCollections;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -47,6 +47,17 @@ public class AssignmentsMain extends Application{
 	 	Handler handler = new Handler();
 	 	
 	    public void start(Stage primaryStage) {
+	    	//opens previous schedule of assignments
+	    	try {
+				handler.openFile();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    	
 	    	//creates window with grid layout
 	    	BorderPane borderPane = new BorderPane();
 	    	//possibly different class
@@ -88,7 +99,7 @@ public class AssignmentsMain extends Application{
 	    	hbClass.setAlignment(Pos.BASELINE_LEFT);
 
 	    	//add combobox and button
-	    	ComboBox cmbClass = new ComboBox();
+	    	ComboBox<String> cmbClass = new ComboBox<String>(FXCollections.observableList(handler.getClassList()));
 	    	Button btnClassAdd = new Button("+");
 
 	    	//add hBox and class tools
@@ -153,16 +164,7 @@ public class AssignmentsMain extends Application{
 //	    	hbBtnTest.getChildren().add(btnOpen);
 	    	grid.add(hbBtnTest, 1, 8);
 	    	
-	    	//opens previous schedule of assignments
-	    	try {
-				handler.openFile();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+
 	    	
 	    	
 	    	/**
@@ -280,7 +282,10 @@ public class AssignmentsMain extends Application{
 	    	    }
 	    	});
 
-	    	
+	    	/**
+	    	 * clears assignment list and saves object file. 
+	    	 * should clear combobox as well?
+	    	 */
 	    	btnClear.setOnAction(new EventHandler<ActionEvent>() {
 	    		 
 	    	    @Override
