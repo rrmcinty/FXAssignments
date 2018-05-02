@@ -1,6 +1,7 @@
 package fxAssignments;
 
 import java.io.IOException;
+import java.util.logging.*;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Scanner;
@@ -39,6 +40,8 @@ import javafx.stage.Stage;
  */
 
 public class AssignmentsMain extends Application{
+	private final static Logger logr = Logger.getLogger( "AssignmentsMain" );
+	
 	 public static void main(String[] args) {
 	        launch(args);
 	        
@@ -47,6 +50,15 @@ public class AssignmentsMain extends Application{
 	 	Handler handler = new Handler();
 	 	
 	    public void start(Stage primaryStage) {
+	    	//LOGGER INIT
+	    	LogManager.getLogManager().reset();
+	    	logr.setLevel(Level.ALL);
+	    	ConsoleHandler ch = new ConsoleHandler();
+	    	ch.setLevel(Level.ALL); //CHANGE THIS TO ANOTHER LEVEL ONCE DONE
+	    	logr.addHandler(ch);
+	    	
+	    	logr.log(Level.INFO, "File opening");
+	    	
 	    	//opens previous schedule of assignments
 	    	try {
 				handler.openFile();
@@ -58,9 +70,16 @@ public class AssignmentsMain extends Application{
 				e1.printStackTrace();
 			}
 	    	
+	    	
+	    	logr.log(Level.INFO, "Grid creating");
+	    	
+	    	
 	    	//creates window with grid layout
 	    	BorderPane borderPane = new BorderPane();
 	    	//possibly different class
+	    	
+	    	logr.log(Level.INFO, "Menu creating");
+	    	
 	    	MenuBar menuBar = new MenuBar();
 	    	menuBar.prefWidthProperty().bind(primaryStage.maxWidthProperty());
 	    	Menu menuFile = new Menu("File");
@@ -79,7 +98,8 @@ public class AssignmentsMain extends Application{
 	    	grid.setHgap(10); //spacing between rows 
 	    	grid.setVgap(10); // and columns
 	    	grid.setPadding(new Insets(25, 25, 25, 25)); //space around edge of gridpane
-	    		    	
+	    		
+	    	logr.log(Level.INFO, "Textfields and comboboxes creating");
 	    	
 	    	//TEXTFIELDS AND COMBOBOXES
 	    	Text scenetitle = new Text("Scheduler");
@@ -99,6 +119,7 @@ public class AssignmentsMain extends Application{
 	    	hbClass.setAlignment(Pos.BASELINE_LEFT);
 
 	    	//add combobox and button
+	    	//need to get rid of repeat classes in combobox
 	    	ComboBox<String> cmbClass = new ComboBox<String>(FXCollections.observableList(handler.getClassList()));
 	    	Button btnClassAdd = new Button("+");
 
@@ -119,6 +140,10 @@ public class AssignmentsMain extends Application{
 	    	
 	    	Label due = new Label("Due date:");
 	    	grid.add(due, 0, 3);
+	    	
+	    	
+	    	logr.log(Level.INFO, "DatePicker creating");
+	    	
 	        //create the datepicker
 	        DatePicker datePicker = new DatePicker();
 	        //DATEPICKER CLOSES WINDOW AFTER CHOSEN
@@ -133,6 +158,8 @@ public class AssignmentsMain extends Application{
 	    	
 	    	grid.add(hbDate, 1, 3);
 	    	
+	    	
+	    	logr.log(Level.INFO, "Buttons creating");
 	    	
 	    	//CREATE BUTTONS
 	    	Button btnView = new Button("View All");
