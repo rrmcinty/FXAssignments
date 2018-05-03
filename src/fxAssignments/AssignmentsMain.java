@@ -40,7 +40,9 @@ import javafx.stage.Stage;
  */
 
 public class AssignmentsMain extends Application{
-	private final static Logger logr = Logger.getLogger( "AssignmentsMain" );
+	
+	private final static Logger logr = ApplicationLogger.createLogger();
+	private LocalDate datepicked;
 	
 	 public static void main(String[] args) {
 	        launch(args);
@@ -51,15 +53,12 @@ public class AssignmentsMain extends Application{
 	 	
 	    public void start(Stage primaryStage) {
 	    	//LOGGER INIT
-	    	LogManager.getLogManager().reset();
-	    	logr.setLevel(Level.ALL);
-	    	ConsoleHandler ch = new ConsoleHandler();
-	    	ch.setLevel(Level.ALL); //CHANGE THIS TO ANOTHER LEVEL ONCE DONE
-	    	logr.addHandler(ch);
+
 	    	
 	    	logr.log(Level.INFO, "File opening");
 	    	
 	    	//opens previous schedule of assignments
+	    	//open in separate class?
 	    	try {
 				handler.openFile();
 			} catch (IOException e1) {
@@ -80,14 +79,10 @@ public class AssignmentsMain extends Application{
 	    	
 	    	logr.log(Level.INFO, "Menu creating");
 	    	
-	    	MenuBar menuBar = new MenuBar();
+	    	//create menu
+	    	MenuBar menuBar = AppComponents.createMenu();
 	    	menuBar.prefWidthProperty().bind(primaryStage.maxWidthProperty());
-	    	Menu menuFile = new Menu("File");
-	    	//use menu?
-	    	MenuItem openItem = new MenuItem("Open");
-	    	menuFile.getItems().add(openItem);
-	    	menuBar.getMenus().addAll(menuFile);
-	    	
+
 
 	    	borderPane.setTop(menuBar);
 	    	
@@ -148,8 +143,12 @@ public class AssignmentsMain extends Application{
 	        DatePicker datePicker = new DatePicker();
 	        //DATEPICKER CLOSES WINDOW AFTER CHOSEN
 	        //add action
+	        
+	        
 	        datePicker.setOnAction(event-> {
 	        	LocalDate date = datePicker.getValue();
+	        	//scope?
+	        	datepicked = date;
 	        	System.out.println("Date selected is " + date);
 	        });
 	        
@@ -215,7 +214,7 @@ public class AssignmentsMain extends Application{
 	    	        	System.out.println(entered);
 	    	        	cmbClass.getItems().add(entered);
 	    	        }
-	    	        	    	        
+	    	        System.out.println(datepicked);
 	    	        actiontarget.setText("Add chosen");
 	    	    }
 	    	});
@@ -255,25 +254,23 @@ public class AssignmentsMain extends Application{
 	    	        String classVal = (String) cmbClass.getValue();
 	    	        String assignVal = txtAssignment.getText();
 	    	        //LOOK INTO THIS TRY AND CATCH
-	    	        if (cmbClass.getValue() == null || txtAssignment.getText().trim().isEmpty()) {
+	    	        if (cmbClass.getValue() == null || txtAssignment.getText().trim().isEmpty() || datepicked == null){
 	    	        	System.out.println("Fields are empty");
 	    	        	System.out.println(assignVal);
 	    	        	System.out.println(txtAssignment.getText());
 	    	        }
 	    	        else {
 	    	        	try {
-							Assignments added = new Assignments(classVal,assignVal);
+							Assignments added = new Assignments(classVal,assignVal,datepicked);
 							handler.addAssignment(added);
 							handler.saveFile();
-							System.out.println("can I save here?");
+							logr.log(Level.INFO, "Saving assignment");
 							
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 	    	        }
-
-
 	    	        actiontarget.setText("Add chosen");
 	    	    }
 	    	    
@@ -342,9 +339,6 @@ public class AssignmentsMain extends Application{
 	    	Scene scene = new Scene(borderPane, 400, 325); //width and height of window
 	    	
 
-	    	
-	    	
-//	    	((VBox) scene.getRoot()).getChildren().addAll(menuBar);
 	    	
 	    	primaryStage.setScene(scene);
 
