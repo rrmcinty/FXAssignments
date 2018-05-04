@@ -3,6 +3,7 @@ package fxAssignments;
 import java.io.IOException;
 import java.util.logging.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.Scanner;
 import javafx.collections.FXCollections;
@@ -147,6 +148,7 @@ public class AssignmentsMain extends Application{
 	        
 	        datePicker.setOnAction(event-> {
 	        	LocalDate date = datePicker.getValue();
+
 	        	//scope?
 	        	datepicked = date;
 	        	System.out.println("Date selected is " + date);

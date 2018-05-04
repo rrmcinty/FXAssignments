@@ -92,7 +92,7 @@ public class Handler {
 	}
 	
 	/**
-	 * used to clear list so we can test the openfile method
+	 * used to clear list s o we can test the openfile method
 	 */
 	public void clearList() {
 		aList.clear();
@@ -146,5 +146,7 @@ public class Handler {
 		}
 		return found;
 	}
+	
+	//compare datepicked to LocalDate.now()? or in appcomponents
 	
 }

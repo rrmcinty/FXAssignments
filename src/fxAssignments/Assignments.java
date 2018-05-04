@@ -2,6 +2,7 @@ package fxAssignments;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Assignments implements Serializable{
 //	Date due, date1;
@@ -18,7 +19,10 @@ public class Assignments implements Serializable{
 
 
 	public String toString() {
-		return className + " - " + assignment + " - " + date;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+    	String d = date.format(formatter);
+    	
+		return className + " - " + assignment + " - " + d;
 	}
 	public String getAssignment() {
 		return assignment;
