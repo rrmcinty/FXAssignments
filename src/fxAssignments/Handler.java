@@ -6,36 +6,65 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Alert.AlertType;
 
 
 public class Handler {
 	ArrayList<Assignments> aList = new ArrayList<Assignments>();
 	List<String> classList = new ArrayList<String>();
+	ArrayList<Assignments> dueToday = new ArrayList<Assignments>();
+	ArrayList<Assignments> pastDue = new ArrayList<Assignments>();
+	
+	
 	/**
 	 * this wont add assignments object to aList
 	 * @param a
 	 */
 	public void addAssignment(Assignments a) {
 		aList.add(a);
-
 		System.out.println(a.toString() + " added to aList");
 		
 	}
 	
+	public String dueString() {
+		String dTodayString = "";
+		String pDueString = "";
+		LocalDate localDate = LocalDate.now();
+		Assignments current;
+		for (Assignments a : aList) {
+			if (a.compareTo(localDate) == 0)  {
+				dueToday.add(a);
+				dTodayString = dTodayString + a.toString() + System.lineSeparator();
+			}
+			else if (a.compareTo(localDate) < 0) {
+				pastDue.add(a);
+				pDueString = pDueString + a.toString() + System.lineSeparator();
+			}
+		}
+		
+		return "Due Today" + System.lineSeparator() + dTodayString + "Past Due" + System.lineSeparator() + pDueString;
+		
+	}
 	public String printAll() {
 		String allAssignments = "";
 		System.out.print(aList.toString() + " should be printed.");
 		if (aList.size() == 0) {
 			allAssignments = ("There are no current assignments");
 		}
-		for (Assignments a : aList) {
-			//just prints %n instead of new line
-			allAssignments = allAssignments + a.toString() + System.lineSeparator();
+		else {
+			Collections.sort(aList);
+			for (Assignments a : aList) {
+				//just prints %n instead of new line
+				allAssignments = allAssignments + a.toString() + System.lineSeparator();
+			}
 		}
 		
 		return allAssignments;
@@ -80,14 +109,22 @@ public class Handler {
 					Assignments a = (Assignments) obj;
 					aList.add(a);
 					//adds class to class list to read in for combo box
-					classList.add(a.getName());
+					if (!classList.contains(a.getName())) {
+						classList.add(a.getName());
+					}
 			}
 			}catch (EOFException ex) {
 			System.out.println("All objects read");
 			}
 	}
+	public ArrayList<Assignments> getDueToday() {
+		return dueToday;
+	}
+	public ArrayList<Assignments> getPastDue() {
+		return pastDue;
+	}
 	
-	public List getClassList() {
+	public List<String> getClassList() {
 		return classList;
 	}
 	
@@ -96,6 +133,15 @@ public class Handler {
 	 */
 	public void clearList() {
 		aList.clear();
+	}
+	
+	public Alert dueAlert() {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Important Dates");
+        alert.setHeaderText("Important Upcoming Due Dates");
+        alert.setContentText(dueString());
+        
+        return alert;
 	}
 	
 	/**
@@ -122,9 +168,25 @@ public class Handler {
 		
 		while (iter.hasNext()) {
 			Assignments a = iter.next();
-			
 			if (a.equals(assignment)) {
 				iter.remove();
+				System.out.println(a.toString() + " should be removed");
+			}
+		}
+		iter = dueToday.iterator();
+		while (iter.hasNext()) {
+			Assignments a = iter.next();
+			if (a.equals(assignment)) {
+				iter.remove();
+				System.out.println(a.toString() + " should be removed");
+			}
+		}
+		iter = pastDue.iterator();
+		while (iter.hasNext()) {
+			Assignments a = iter.next();
+			if (a.equals(assignment)) {
+				iter.remove();
+				System.out.println(a.toString() + " should be removed");
 			}
 		}
 	}
@@ -142,11 +204,10 @@ public class Handler {
 		for (Assignments assignment : aList) {
 			if (assignment.getName().equals(c) && assignment.getAssignment().equals(a)) {
 				found = assignment;
+				break;
 			}
 		}
 		return found;
 	}
-	
-	//compare datepicked to LocalDate.now()? or in appcomponents
-	
+		
 }

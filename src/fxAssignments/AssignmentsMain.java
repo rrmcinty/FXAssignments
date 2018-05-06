@@ -3,7 +3,6 @@ package fxAssignments;
 import java.io.IOException;
 import java.util.logging.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.Scanner;
 import javafx.collections.FXCollections;
@@ -22,9 +21,7 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
@@ -212,7 +209,7 @@ public class AssignmentsMain extends Application{
 	    	        //response
 	    	        Optional<String> result = dialog.showAndWait();
 	    	        if (result.isPresent()) {
-	    	        	String entered = result.get();
+	    	        	String entered = result.get().toUpperCase();
 	    	        	System.out.println(entered);
 	    	        	cmbClass.getItems().add(entered);
 	    	        }
@@ -227,9 +224,9 @@ public class AssignmentsMain extends Application{
 //	    	    	Hhandler = new Handler();
 	    	    	
 	    	        actiontarget.setFill(Color.BLACK);
-	    	        /**
-	    	         * print out assignment objects from alist in handler class
-	    	         */
+	    	        
+	    	        Alert due = handler.dueAlert();
+	    	        due.showAndWait();
 	    	        Alert alert = new Alert(AlertType.INFORMATION);
 	    	        alert.setTitle("All assignments");
 	    	        alert.setHeaderText("View of all current assignments");
@@ -247,6 +244,7 @@ public class AssignmentsMain extends Application{
 	    	    @Override
 	    	    public void handle(ActionEvent e) {
 	    	        actiontarget.setFill(Color.FIREBRICK);
+	    	        actiontarget.setText("Add chosen");
 	    	        /**
 	    	         * add assignment object from combobox info and assignment info
 	    	         * Then add to aList in handler
@@ -257,7 +255,8 @@ public class AssignmentsMain extends Application{
 	    	        String assignVal = txtAssignment.getText();
 	    	        //LOOK INTO THIS TRY AND CATCH
 	    	        if (cmbClass.getValue() == null || txtAssignment.getText().trim().isEmpty() || datepicked == null){
-	    	        	System.out.println("Fields are empty");
+//	    	        	System.out.println("Fields are empty");
+	    	        	actiontarget.setText("Please fill out all fields.");
 	    	        	System.out.println(assignVal);
 	    	        	System.out.println(txtAssignment.getText());
 	    	        }
@@ -273,9 +272,7 @@ public class AssignmentsMain extends Application{
 							e1.printStackTrace();
 						}
 	    	        }
-	    	        actiontarget.setText("Add chosen");
-	    	    }
-	    	    
+	    	    }  
 	    	});
 /**
  * removes from list but adds them back once program started. also errors found, something to do with reading/writing?
@@ -316,7 +313,7 @@ public class AssignmentsMain extends Application{
 	    		 
 	    	    @Override
 	    	    public void handle(ActionEvent e) {
-
+	    	    	//add this all to a class called buttonHandler?
 	    	        actiontarget.setFill(Color.BLUEVIOLET);
 	    	        actiontarget.setText("Clear chosen");
 	    	        Alert alert = new Alert(AlertType.CONFIRMATION);
