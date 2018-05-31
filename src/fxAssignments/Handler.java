@@ -37,6 +37,8 @@ public class Handler {
 	public String dueString() {
 		String dTodayString = "";
 		String pDueString = "";
+		String dueTodayString = "Due Today";
+		String pastDueString = "Past Due";
 		LocalDate localDate = LocalDate.now();
 		Assignments current;
 		for (Assignments a : aList) {
@@ -49,8 +51,14 @@ public class Handler {
 				pDueString = pDueString + a.toString() + System.lineSeparator();
 			}
 		}
+		if (dTodayString.equals("")) {
+			dueTodayString = "";
+		}
+		if (pDueString.equals("")) {
+			pastDueString = "";
+		}
 		
-		return "Due Today" + System.lineSeparator() + dTodayString + "Past Due" + System.lineSeparator() + pDueString;
+		return dueTodayString + System.lineSeparator() + dTodayString + pastDueString + System.lineSeparator() + pDueString;
 		
 	}
 	public String printAll() {
@@ -67,7 +75,7 @@ public class Handler {
 			}
 		}
 		
-		return allAssignments;
+		return "Current Assignments" + System.lineSeparator() + allAssignments;
 	}
 
 	//READ AND WRITE METHODS

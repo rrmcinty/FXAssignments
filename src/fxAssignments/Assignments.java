@@ -45,7 +45,11 @@ public class Assignments implements Serializable, Comparable<Assignments>{
 //		LocalDate otherDate = other.getDate();
 		int cmp = (date.getYear() - other.getYear());
 		if (cmp == 0) {
-			cmp = (date.getDayOfMonth() - other.getDayOfMonth());
+			cmp = date.getMonthValue() - other.getMonthValue();
+		
+		if (cmp ==0) {
+			cmp = (other.getDayOfMonth() - date.getDayOfMonth());
+		}
 		}
 		System.out.println(cmp);
 		return cmp;
